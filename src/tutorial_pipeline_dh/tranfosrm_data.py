@@ -15,29 +15,27 @@ columns_to_rename = {
     "dt": "datetime",
     "timezone": "timezone",
     "id": "city_id",
-    "name": "city_name",    
+    "name": "city_name",
     "cod": "city_cod",
-    "coordlon": "langitude",
-    "coordlat": "latitude",
-    "maintemp": "temperature",
-    "mainfeels_like": "feels_like",
-    "maintemp_min": "temp_min",
-    "maintemp_max": "temp_max",
-    "mainpressure": "pressure",
-    "mainhumidity": "humidity",
-    "mainsea_level": "sea_level",
-    "maingrnd_level": "grnd_level",
-    "windspeed": "wind_speed",
-    "winddeg": "wind_deg",
-    "windgust": "wind_gust",
-    "cloudsall": "clouds",
-    "systype": "sys_type",
-    "sysid": "sys_id",
-    "syscountry": "sys_country",
-    "syssunrise": "sunrise",
-    "syssunset": "sunset"       
-
-
+    "coord.lon": "longitude",
+    "coord.lat": "latitude",
+    "main.temp": "temperature",
+    "main.feels_like": "feels_like",
+    "main.temp_min": "temp_min",
+    "main.temp_max": "temp_max",
+    "main.pressure": "pressure",
+    "main.humidity": "humidity",
+    "main.sea_level": "sea_level",
+    "main.grnd_level": "grnd_level",
+    "wind.speed": "wind_speed",
+    "wind.deg": "wind_deg",
+    "wind.gust": "wind_gust",
+    "clouds.all": "clouds",
+    "sys.type": "sys_type",
+    "sys.id": "sys_id",
+    "sys.country": "sys_country",
+    "sys.sunrise": "sunrise",
+    "sys.sunset": "sunset"
 }
 columns_to_normalize = ['datetime', 'sunrise', 'sunset']
 
@@ -52,6 +50,7 @@ def create_dataframe(path_name: str) -> pd.DataFrame:
         data = json.load(f)
 
     df = pd.json_normalize(data)
+    print("ORIGINAL COLUMNS:", df.columns.tolist())
     logging.info(f"\n DataFrame created with length: {len(df)}\n")
     return df
    
@@ -84,9 +83,9 @@ def rename_columns(df: pd.DataFrame, columns_names: dict[str, str]) -> pd.DataFr
 def normalize_datetime_column(df: pd.DataFrame, columns_name: list[str]) -> pd.DataFrame:
     for name in columns_name:
         logging.info(f"Normalizing datetime column: {name}")
-        df[name] = pd.to_datetime(df[name], unit='s', utc=True).dt.tz_convert('America/Sao_Paulo')
+        df[name] = pd.to_datetime(df[name], unit='s', utc=True).dt.tz_convert('Europe/London')
         logging.info(f"\n Normalized datetime column: {name}\n")
-        return df
+    return df
 
 def data_transformation():
     print("Starting data transformation process...")

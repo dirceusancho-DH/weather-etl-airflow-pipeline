@@ -13,7 +13,7 @@ env_path = Path(__file__).resolve().parent.parent / 'config' / '.env'
 load_dotenv(dotenv_path=env_path)
 API_KEY = os.getenv('api_key')
 
-url = f"http://api.openweathermap.org/data/2.5/weather?q=London&appid={API_KEY}"
+url = f"http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid={API_KEY}"
 table_name = 'lon_weather'
 
 def pipeline():
